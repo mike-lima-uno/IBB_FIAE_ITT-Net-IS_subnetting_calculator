@@ -82,8 +82,11 @@ A CIDR value must be between 0 and 32. IPv4 and subnet-mask octets must be betwe
 ## <a name='ProjectStructure'></a>Project Structure
 
 ```text
-.
+ipv4-subnet-calculator/
 ├── index.html
+├── ipv4.html
+├── ipv6.html
+├── LICENSE
 ├── README.md
 └── CONTRIBUTING.md
 ```

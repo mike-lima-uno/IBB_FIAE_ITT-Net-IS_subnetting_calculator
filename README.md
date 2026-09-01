@@ -26,6 +26,8 @@ The calculator accepts an IPv4 address and either a CIDR value or a subnet mask.
 
 This project was created as part of the ITT-Net-IS module during the IBB FIAE training program, with great enthusiasm and a strong desire to help my fellow students calculate IPv4 subnets.
 
+See it on Github: [IBB FIAE subnetting calculator.html](https://mike-lima-uno.github.io/IBB_FIAE_subnetting_calculator/)
+
 ## <a name='Features'></a>Features
 
 - Enter an IPv4 address using four octets.
@@ -111,7 +113,7 @@ git push origin dev
 git switch main
 git pull origin main
 git merge dev --no-ff -m "merge dev into main"
-git push origin main
+git push -u origin main:main dev:dev
 
 # 4. Start the next development cycle and go back to Nr. 2
 git switch dev

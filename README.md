@@ -1,8 +1,11 @@
-# README
+# IBB FIAE Subnet Calculators
+
+Table of Contents
 
 <!-- vscode-markdown-toc -->
-* [IBB FIAE IPv4 Subnet Calculator](#IBBFIAEIPv4SubnetCalculator)
+* [Introduction](#Introduction)
 * [Features](#Features)
+	* [Improvements](#Improvements)
 * [Getting Started](#GettingStarted)
 	* [Requirements](#Requirements)
 	* [Installation](#Installation)
@@ -10,6 +13,7 @@
 * [Project Structure](#ProjectStructure)
 * [Short guide about the git flow](#Shortguideaboutthegitflow)
 * [License](#License)
+* [Development Notes](#DevelopmentNotes)
 * [About the Author](#AbouttheAuthor)
 
 <!-- vscode-markdown-toc-config
@@ -18,17 +22,19 @@
 	/vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
 
-## <a name='IBBFIAEIPv4SubnetCalculator'></a>IBB FIAE IPv4 Subnet Calculator
+## <a name='Introduction'></a>Introduction
 
-A simple browser-based IPv4 subnet calculator built with HTML, JavaScript, and Tailwind CSS.
+A simple browser-based IP subnet calculator for v4 and v6, built with HTML, JavaScript, and Tailwind CSS.
 
-The calculator accepts an IPv4 address and either a CIDR value or a subnet mask. It calculates the corresponding subnet information, including the network address, valid host range, broadcast address, and number of usable hosts.
+The calculator accepts an IP address and either a CIDR value or a subnet mask. It calculates the corresponding subnet information, including the network address, valid host range, broadcast address, and number of usable hosts.
 
-This project was created as part of the ITT-Net-IS module during the IBB FIAE training program, with great enthusiasm and a strong desire to help my fellow students calculate IPv4 subnets.
+This project was created as part of the ITT-Net-IS module during the IBB FIAE training program, with great enthusiasm and a strong desire to help my fellow students calculate and understand IPv4 and IPv6 subnets.
+
+See it on Github: [IBB FIAE subnetting calculator.html](https://mike-lima-uno.github.io/IBB_FIAE_subnetting_calculator/)
 
 ## <a name='Features'></a>Features
 
-- Enter an IPv4 address using four octets.
+- Enter an IPv4 or IPv6 address.
 - Calculate a subnet mask from a CIDR value.
 - Calculate a CIDR value from a subnet mask.
 - Display the network address.
@@ -40,13 +46,14 @@ This project was created as part of the ITT-Net-IS module during the IBB FIAE tr
 - Scroll through results when necessary.
 - Display invalid input in red.
 
-### Improvements
+### <a name='Improvements'></a>Improvements
 
 [ ] The addOne() and subtractOne() functions only change the final octet.  
     They do not handle rollover or borrowing, e.g.:  
      * 192.168.1.255 + 1 should become 192.168.2.0.  
      * 192.168.2.0 - 1 should become 192.168.1.255.  
 
+[ ] The same for IPv6.
 
 ## <a name='GettingStarted'></a>Getting Started
 
@@ -84,8 +91,10 @@ A CIDR value must be between 0 and 32. IPv4 and subnet-mask octets must be betwe
 ```text
 ipv4-subnet-calculator/
 ├── index.html
-├── ipv4.html
-├── ipv6.html
+├── calculator_ipv4.html
+├── calculator_ipv6.html
+├── subnetting_ipv4.html
+├── subnetting_ipv6.html
 ├── LICENSE
 ├── README.md
 └── CONTRIBUTING.md
@@ -111,7 +120,7 @@ git push origin dev
 git switch main
 git pull origin main
 git merge dev --no-ff -m "merge dev into main"
-git push origin main
+git push -u origin main:main dev:dev
 
 # 4. Start the next development cycle and go back to Nr. 2
 git switch dev
@@ -150,7 +159,7 @@ Copyright (c) 2026 Cicero Lima
 This project is licensed under the MIT License.
 See the  [LICENSE](LICENSE) file for the full license text.
 
-## Development Notes
+## <a name='DevelopmentNotes'></a>Development Notes
 
 Parts of the implementation and documentation were developed with assistance
 from an AI coding assistant. The author reviewed and remains responsible for

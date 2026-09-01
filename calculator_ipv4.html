@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPv4 Subnet Calculator - A Cisso Lima App (C)</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-white px-6 pt-6 pb-24 text-sm text-black">
+
+  <main class="mx-auto flex min-h-[calc(100vh-6rem)] max-w-2xl flex-col">
+
+    <h1 class="mb-8 text-center text-xl font-bold">
+      IPv4 Subnetting Calculator
+    </h1>
+
+    <h3 class="mb-4 text-lg font-semibold">
+      Enter IPv4 and CIDR (or Subnet Mask):
+    </h3>
+
+    <hr class="mb-4 border-gray-500">
+
+    <!-- IPv4 and CIDR -->
+    <div class="mb-4 grid grid-cols-[120px_repeat(4,1fr)_20px_55px] items-center gap-3">
+      <label for="ip1" class="font-medium">IPv4:</label>
+
+      <input id="ip1" class="octet border border-black p-1 text-center" type="number" min="0" max="255" value="192">
+
+      <input class="octet border border-black p-1 text-center" type="number" min="0" max="255" value="168">
+
+      <input class="octet border border-black p-1 text-center" type="number" min="0" max="255" value="10">
+
+      <input class="octet border border-black p-1 text-center" type="number" min="0" max="255" value="35">
+
+      <span class="text-center text-lg">/</span>
+
+      <input id="cidr" class="border border-black p-1 text-center" type="number" min="0" max="32" placeholder="24">
+    </div>
+
+    <!-- Subnet mask -->
+    <div class="mb-6 grid grid-cols-[120px_repeat(4,1fr)_20px_55px] items-center gap-3">
+      <label for="mask1" class="font-medium">
+        Subnet Mask:
+      </label>
+
+      <input id="mask1" class="mask-octet border border-black p-1 text-center" type="number" min="0" max="255" value="255">
+
+      <input class="mask-octet border border-black p-1 text-center" type="number" min="0" max="255" value="255">
+
+      <input class="mask-octet border border-black p-1 text-center" type="number" min="0" max="255" value="255">
+
+      <input class="mask-octet border border-black p-1 text-center" type="number" min="0" max="255" value="0">
+
+      <span></span>
+      <span></span>
+    </div>
+
+    <h3 class="mb-4 mt-6 text-lg font-semibold">
+      Results
+    </h3>
+
+    <hr class="mb-4 border-gray-500">
+
+    <!-- Scrollable results -->
+    <div
+      id="results"
+      class="min-h-0 flex-1 overflow-y-auto whitespace-pre-wrap border border-gray-500 p-4 font-mono"
+    ></div>
+
+  </main>
+
+  <!-- Fixed calculate button -->
+  <button
+    id="calculateButton"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 border border-gray-700 bg-gray-100 px-8 py-3 shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    Calculate
+  </button>
+
+  <script>
+    const ipInputs = document.querySelectorAll(".octet");
+    const maskInputs = document.querySelectorAll(".mask-octet");
+    const cidrInput = document.getElementById("cidr");
+    const results = document.getElementById("results");
+
+    let lastEdited = null;
+
+    cidrInput.addEventListener("input", () => {
+      lastEdited = "cidr";
+    });
+
+    maskInputs.forEach(input => {
+      input.addEventListener("input", () => {
+        lastEdited = "mask";
+      });
+    });
+
+    document
+      .getElementById("calculateButton")
+      .addEventListener("click", calculateSubnet);
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        calculateSubnet();
+      }
+    });
+
+    function calculateSubnet() {
+      clearResults();
+
+      const ip = [...ipInputs].map(input => Number(input.value));
+      const maskText = [...maskInputs].map(input => input.value.trim());
+      const cidrText = cidrInput.value.trim();
+
+      if (ip.some(value => !isValidOctet(value))) {
+        showError("Invalid IPv4 address.");
+        return;
+      }
+
+      const allMasksFilled = maskText.every(value => value !== "");
+      const hasCIDR = cidrText !== "";
+
+      /*
+       * CIDR was edited:
+       * calculate and fill the subnet mask fields.
+       */
+      if (lastEdited === "cidr" || (hasCIDR && !allMasksFilled)) {
+        const cidr = Number(cidrText);
+
+        if (!Number.isInteger(cidr) || cidr < 0 || cidr > 32) {
+          showError("Invalid CIDR. Enter a value from 0 to 32.");
+          return;
+        }
+
+        const mask = cidrToMask(cidr);
+        setMaskValues(mask);
+        displayResults(ip, mask, cidr);
+        return;
+      }
+
+      /*
+       * All subnet-mask fields were entered:
+       * calculate and fill the CIDR field.
+       */
+      if (allMasksFilled) {
+        const mask = maskText.map(Number);
+
+        if (mask.some(value => !isValidOctet(value))) {
+          showError("Invalid subnet mask.");
+          return;
+        }
+
+        const cidr = maskToCIDR(mask);
+
+        if (cidr === null) {
+          showError(
+            "Invalid subnet mask. The mask must contain consecutive 1-bits."
+          );
+          return;
+        }
+
+        cidrInput.value = cidr;
+        displayResults(ip, mask, cidr);
+        return;
+      }
+
+      showError("Enter a CIDR value or complete all subnet-mask fields.");
+    }
+
+    function cidrToMask(cidr) {
+      const mask = [];
+
+      for (let i = 0; i < 4; i++) {
+        const bitsLeft = cidr - i * 8;
+
+        if (bitsLeft >= 8) {
+          mask.push(255);
+        } else if (bitsLeft <= 0) {
+          mask.push(0);
+        } else {
+          mask.push(256 - 2 ** (8 - bitsLeft));
+        }
+      }
+
+      return mask;
+    }
+
+    function maskToCIDR(mask) {
+      const binary = mask
+        .map(value => value.toString(2).padStart(8, "0"))
+        .join("");
+
+      // A valid mask must look like 1111111100000000.
+      if (!/^1*0*$/.test(binary)) {
+        return null;
+      }
+
+      return binary.indexOf("0") === -1
+        ? 32
+        : binary.indexOf("0");
+    }
+
+    function setMaskValues(mask) {
+      maskInputs.forEach((input, index) => {
+        input.value = mask[index];
+      });
+    }
+
+    function displayResults(ip, mask, cidr) {
+      const network = ip.map((value, index) => {
+        return value & mask[index];
+      });
+
+      const broadcast = network.map((value, index) => {
+        return value | (255 - mask[index]);
+      });
+
+      const totalAddresses = 2 ** (32 - cidr);
+
+      const firstValid =
+        totalAddresses > 2
+          ? addOne(network)
+          : network;
+
+      const lastValid =
+        totalAddresses > 2
+          ? subtractOne(broadcast)
+          : broadcast;
+
+      const hostBits = 32 - cidr;
+      const usableHosts =
+        totalAddresses > 2 ? totalAddresses - 2 : totalAddresses;
+
+      const firstValidHtml = formatComparedAddress(firstValid, lastValid);
+      const lastValidHtml = formatComparedAddress(lastValid, firstValid);
+
+      results.classList.remove("text-red-600");
+
+      results.innerHTML =
+`Subnet Mask:       ${mask.join(".")}
+CIDR:              /${cidr}
+Host Bits:         ${hostBits}
+
+Network Address:   ${network.join(".")}
+\tFirst Valid IP:  ${firstValidHtml}
+\tLast Valid IP:   ${lastValidHtml}
+Broadcast Address: ${broadcast.join(".")}
+
+Total Addresses:   ${totalAddresses}
+Usable Hosts:      ${usableHosts}`;
+    }
+
+    function addOne(address) {
+      return address.slice().map((value, index, array) => {
+        if (index === array.length - 1) {
+          return value + 1;
+        }
+
+        return value;
+      });
+    }
+
+    function subtractOne(address) {
+      return address.slice().map((value, index, array) => {
+        if (index === array.length - 1) {
+          return value - 1;
+        }
+
+        return value;
+      });
+    }
+
+    function formatComparedAddress(address, comparison) {
+      return address
+        .map((octet, index) => {
+          const color = octet === comparison[index]
+            ? "text-gray-400"
+            : "text-black";
+
+          return `<span class="${color}">${octet}</span>`;
+        })
+        .join(".");
+    }
+
+
+    function isValidOctet(value) {
+      return Number.isInteger(value) &&
+             value >= 0 &&
+             value <= 255;
+    }
+
+    function clearResults() {
+      results.classList.remove("text-red-600");
+      results.textContent = "";
+    }
+
+    function showError(message) {
+      results.classList.add("text-red-600");
+      results.textContent = message;
+    }
+  </script>
+
+</body>
+</html>

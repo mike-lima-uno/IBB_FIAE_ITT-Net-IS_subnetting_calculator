@@ -32,6 +32,9 @@ This project was created as part of the ITT-Net-IS module during the IBB FIAE tr
 
 See it on Github: [IBB FIAE subnetting calculator.html](https://mike-lima-uno.github.io/IBB_FIAE_subnetting_calculator/)
 
+
+I use: <a href="https://www.flaticon.com/free-icons/left-arrow" title="left arrow icons">Left arrow icons created by Magnific - Flaticon</a>
+
 ## <a name='Features'></a>Features
 
 - Enter an IPv4 or IPv6 address.

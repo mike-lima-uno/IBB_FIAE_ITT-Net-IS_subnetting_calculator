@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IPv6 Subnet Calculator - A Cisso Lima App</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="relative min-h-screen bg-white px-6 pt-6 pb-24 text-sm text-black">
+
+  <a
+    href="../index.html"
+    aria-label="Back to home"
+    class="absolute right-4 top-4 border border-gray-700 bg-gray-100
+    flex h-10 w-10 items-center justify-center rounded-full p-0
+    text-center text-lg leading-none shadow transition
+    hover:bg-gray-200 focus:outline-none
+    focus:ring-2 focus:ring-blue-500">
+
+    <img
+      src="../assets/back-button.png"
+      alt=""
+      aria-hidden="true"
+      class="h-full w-full object-contain">
+  </a>
+
+  <main class="mx-auto flex min-h-[calc(100vh-6rem)] max-w-2xl flex-col">
+
+    <h1 class="mb-8 text-center text-xl font-bold">
+      IPv6 Subnetting Calculator
+    </h1>
+
+    <h3 class="mb-4 text-lg font-semibold">
+      Enter IPv6, CIDR, and Number of Subnets:
+    </h3>
+
+    <hr class="mb-4 border-gray-500">
+
+    <!-- IPv6 address -->
+    <div class="mb-4">
+      <label class="mb-2 block font-medium">
+        IPv6 Address:
+      </label>
+
+      <div class="grid grid-cols-4 gap-2">
+        <input
+          id="ipv6-1"
+          class="ipv6-group min-w-0 border border-black p-1 text-center uppercase"
+          type="text"
+          maxlength="4"
+          value="2001">
+
+        <input
+          class="ipv6-group min-w-0 border border-black p-1 text-center uppercase"
+          type="text"
+          maxlength="4"
+          value="0">
+
+        <input
+          class="ipv6-group min-w-0 border border-black p-1 text-center uppercase"
+          type="text"
+          maxlength="4"
+          value="0db8">
+
+        <input
+          class="ipv6-group min-w-0 border border-black p-1 text-center uppercase"
+          type="text"
+          maxlength="4"
+          value="0">
+
+        <input
+          class="ipv6-group min-w-0 border border-black p-1 text-center uppercase"
+          type="text"
+          maxlength="4"
+          value="0">
+
+        <input
+          class="ipv6-group min-w-0 border border-black p-1 text-center uppercase"
+          type="text"
+          maxlength="4"
+          value="0">
+
+        <input
+          class="ipv6-group min-w-0 border border-black p-1 text-center uppercase"
+          type="text"
+          maxlength="4"
+          value="0">
+
+        <input
+          class="ipv6-group min-w-0 border border-black p-1 text-center uppercase"
+          type="text"
+          maxlength="4"
+          value="1">
+      </div>
+    </div>
+
+    <!-- CIDR -->
+    <div class="mb-4 flex items-center gap-2">
+      <label for="cidr" class="font-medium">
+        CIDR:
+      </label>
+
+      <span class="text-lg">
+        /
+      </span>
+
+      <input
+        id="cidr"
+        class="w-20 border border-black p-1 text-center"
+        type="number"
+        min="0"
+        max="128"
+        value="64">
+    </div>
+
+    <!-- Number of subnets -->
+    <div class="mb-6 flex items-center gap-3">
+      <label for="subnetCount" class="font-medium">
+        Nr. of Subnets:
+      </label>
+
+      <input
+        id="subnetCount"
+        class="w-24 border border-black p-1 text-center"
+        type="number"
+        min="1"
+        step="1"
+        value="4">
+    </div>
+
+    <!-- Results -->
+    <h3 class="mb-4 mt-2 text-lg font-semibold">
+      Results
+    </h3>
+
+    <hr class="mb-4 border-gray-500">
+
+    <div
+      id="results"
+      class="min-h-0 flex-1 overflow-y-auto whitespace-pre-wrap
+      border border-gray-500 p-4 font-mono">
+    </div>
+
+  </main>
+
+  <!-- Calculate button -->
+  <button
+    id="calculateButton"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 border border-gray-700
+    bg-gray-100 px-8 py-3 shadow transition hover:bg-gray-200
+    focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+    Calculate
+  </button>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+

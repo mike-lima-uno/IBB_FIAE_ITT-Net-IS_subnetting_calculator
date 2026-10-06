@@ -37,17 +37,12 @@ I use: <a href="https://www.flaticon.com/free-icons/left-arrow" title="left arro
 
 ## <a name='Features'></a>Features
 
-- Enter an IPv4 or IPv6 address.
-- Calculate a subnet mask from a CIDR value.
-- Calculate a CIDR value from a subnet mask.
-- Display the network address.
-- Display the first and last valid IP addresses.
-- Display the broadcast address.
-- Display host-bit and address-count information.
-- Press `Enter` to calculate.
-- Use `Tab` and `Shift + Tab` to move between fields.
-- Scroll through results when necessary.
-- Display invalid input in red.
+- **IPv4 and IPv6 calculators:** calculate network details from an address and CIDR prefix or subnet mask.
+- **Subnetting calculators:** divide IPv4 or IPv6 networks into equal-sized subnets.
+- **IPv4 VLSM calculator:** allocate differently sized subnets from a list of departments and required hosts. Use private Class A, B, or C presets, or enter a custom network in CIDR notation.
+- **Network details:** show subnet mask, CIDR, host bits, network ID, valid host range, broadcast address, and address/host counts where applicable.
+- **Light and dark themes:** follow the system preference by default and can be switched manually.
+- **Keyboard and validation:** press `Enter` to calculate, use `Tab` and `Shift + Tab` to navigate, and receive invalid-input feedback in the results area.
 
 ### <a name='Improvements'></a>Improvements
 
@@ -62,7 +57,7 @@ I use: <a href="https://www.flaticon.com/free-icons/left-arrow" title="left arro
 
 ### <a name='Requirements'></a>Requirements
 
-A modern web browser is required. No server or build process is necessary.
+A modern web browser is required. No server or build process is necessary. Tailwind CSS is loaded from its CDN, so an internet connection is needed for the page styling.
 
 ### <a name='Installation'></a>Installation
 
@@ -70,68 +65,75 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/mike-lima-uno/IBB_FIAE_subnetting_calculator.git
+cd IBB_FIAE_subnetting_calculator
 ```
 
-Move into the project directory:
-
-```bash
-cd ipv4-subnet-calculator
-```
-
-Open index.html in a web browser.
+Open the root `index.html` in a web browser and choose a calculator.
 
 ### <a name='Usage'></a>Usage
 
-1. Enter an IPv4 address.
-2. Enter a CIDR value, such as 27, or complete all four subnet-mask fields.
-3. Select Calculate or press Enter.
-4. Review the calculated subnet information in the results area.
+For a standard IPv4 or IPv6 calculation:
 
-A CIDR value must be between 0 and 32. IPv4 and subnet-mask octets must be between 0 and 255.
+1. open the matching calculator, 
+2. enter the address and CIDR prefix or subnet mask, 
+3. then select **Calculate** or press `Enter`.
+
+For VLSM, select a private Class A, B, or C preset, or enter a custom IPv4 network in `address/prefix` format (for example, `192.168.10.0/24`). Describe each department on a separate line as `Department: required hosts`, then select **Calculate**.
+
+IPv4 CIDR prefixes range from 0 to 32. IPv4 octets must be between 0 and 255.
 
 ## <a name='ProjectStructure'></a>Project Structure
 
 ```text
-ipv4-subnet-calculator/
+IBB_FIAE_subnetting_calculator/
+├── assets/
+├── calculator_ipv4/
+├── calculator_ipv6/
+├── subnetting_home/
+├── subnetting_ipv4/
+├── subnetting_ipv6/
+├── subnetting_vlsm/
 ├── index.html
-├── calculator_ipv4.html
-├── calculator_ipv6.html
-├── subnetting_ipv4.html
-├── subnetting_ipv6.html
 ├── LICENSE
-├── README.md
-└── CONTRIBUTING.md
+└── README
 ```
 
 ## <a name='Shortguideaboutthegitflow'></a>Short guide about the git flow
 
+This project uses a simple two-branch workflow: make and push development commits on `dev`, then fast-forward `main` after the work is ready. This keeps history linear and avoids creating a merge commit. Review the staged changes before committing; `git add -A` stages all changes in the repository.
 
-I'll follow the steps under:
-```ps
-# 1. Create dev the first time
+```bash
+# 1. Create dev once, if it does not exist yet
 git switch main
-git pull origin main
+git pull --ff-only origin main
 git switch -c dev
 git push -u origin dev
 
-# 2. Develop (LOOP IT)
-git add .
+# 2. Develop on dev (repeat as needed)
+git switch dev
+git status --short
+git add -A
+git diff --cached --check
+git diff --cached
 git commit -m "Describe the change"
 git push origin dev
 
-# 3. Merge finished work into main / change the message if necessary
+# 3. Fast-forward finished work into main
 git switch main
-git pull origin main
-git merge dev --no-ff -m "merge dev into main"
-git push -u origin main:main dev:dev
+git pull --ff-only origin main
+git merge --ff-only dev
+git push origin main
 
-# 4. Start the next development cycle and go back to Nr. 2
+# 4. Return to dev
 git switch dev
+git pull --ff-only origin dev
 ```
 
-Then check it:
+If `git merge --ff-only dev` refuses to merge, the branches have diverged. Stop and inspect the log instead of forcing the merge.
 
-```ps
+Useful status and history checks:
+
+```bash
 # change branch to dev
 git checkout dev
 
@@ -147,7 +149,7 @@ git branch
 git log --oneline --graph --decorate --all
 ```
 
-The options mean:
+The log options mean:
 
 * --oneline — one compact line per commit
 * --graph — shows branch structure using *, |, and /

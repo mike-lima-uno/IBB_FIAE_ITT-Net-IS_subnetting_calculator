@@ -6,10 +6,28 @@
 
   <title>IP Subnet Calculators - A Cisso Lima App (C)</title>
 
+  <script>
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: "class" };
+  </script>
 </head>
 
-<body class="min-h-screen bg-white px-6 py-10 text-black">
+<body class="min-h-screen bg-white px-6 py-10 text-black dark:bg-[#1e1e1e] dark:text-[#d4d4d4]">
+
+  <button
+    id="themeToggle"
+    type="button"
+    aria-label="Switch to dark mode"
+    aria-pressed="false"
+    title="Switch to dark mode"
+    class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 bg-gray-100 p-0 text-center text-xl leading-none shadow transition hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-300 dark:bg-[#252526] dark:hover:bg-[#333333]">
+    <span id="themeIcon" aria-hidden="true">☾</span>
+  </button>
 
   <main class="mx-auto flex min-h-[calc(100vh-5rem)] max-w-xl flex-col">
 
@@ -18,7 +36,7 @@
         IP Subnet Calculators
       </h1>
 
-      <p class="text-gray-700">
+      <p class="text-gray-700 dark:text-gray-300">
         Choose a calculator to calculate IPv4 or IPv6 subnet information.
       </p>
     </header>
@@ -28,14 +46,14 @@
       <a
         href="calculator_ipv4/index.html"
         class="border border-gray-700 p-6 text-center shadow
-        transition hover:bg-gray-100 focus:outline-none
+        transition hover:bg-gray-100 dark:border-gray-500 dark:bg-[#252526] dark:hover:bg-[#333333] focus:outline-none
         focus:ring-2 focus:ring-blue-500">
 
         <h2 class="mb-3 text-lg font-semibold">
           IPv4 Calculator
         </h2>
 
-        <p class="text-sm text-gray-700">
+        <p class="text-sm text-gray-700 dark:text-gray-300">
           Calculate IPv4 network addresses, subnet masks, CIDR values,
           broadcast addresses, and usable hosts.
         </p>
@@ -44,14 +62,14 @@
       <a
         href="calculator_ipv6/index.html"
         class="border border-gray-700 p-6 text-center shadow
-        transition hover:bg-gray-100 focus:outline-none
+        transition hover:bg-gray-100 dark:border-gray-500 dark:bg-[#252526] dark:hover:bg-[#333333] focus:outline-none
         focus:ring-2 focus:ring-blue-500">
 
         <h2 class="mb-3 text-lg font-semibold">
           IPv6 Calculator
         </h2>
 
-        <p class="text-sm text-gray-700">
+        <p class="text-sm text-gray-700 dark:text-gray-300">
           Calculate IPv6 network addresses, prefix masks, address ranges,
           total addresses, and usable hosts.
         </p>
@@ -60,14 +78,14 @@
       <a
         href="subnetting_ipv4/index.html"
         class="border border-gray-700 p-6 text-center shadow
-        transition hover:bg-gray-100 focus:outline-none
+        transition hover:bg-gray-100 dark:border-gray-500 dark:bg-[#252526] dark:hover:bg-[#333333] focus:outline-none
         focus:ring-2 focus:ring-blue-500">
 
         <h2 class="mb-3 text-lg font-semibold">
           Subnetting IPv4
         </h2>
 
-        <p class="text-sm text-gray-700">
+        <p class="text-sm text-gray-700 dark:text-gray-300">
           Divides an IPv4 network into multiple equal-sized subnets.
         </p>
       </a>
@@ -75,31 +93,50 @@
       <a
         href="subnetting_ipv6/index.html"
         class="border border-gray-700 p-6 text-center shadow
-        transition hover:bg-gray-100 focus:outline-none
+        transition hover:bg-gray-100 dark:border-gray-500 dark:bg-[#252526] dark:hover:bg-[#333333] focus:outline-none
         focus:ring-2 focus:ring-blue-500">
 
         <h2 class="mb-3 text-lg font-semibold">
           Subnetting IPv6
         </h2>
 
-        <p class="text-sm text-gray-700">
+        <p class="text-sm text-gray-700 dark:text-gray-300">
           Divides IPv6 network addresses and subnet ranges.
         </p>
       </a>
 
       <a
         href="subnetting_home/index.html"
-        class="border border-gray-700 p-6 text-center shadow
+        class="border border-gray-700 p-6 text-center shadow dark:border-gray-500
         sm:col-span-2
-        transition hover:bg-gray-100 focus:outline-none
+        transition hover:bg-gray-100 dark:bg-[#252526] dark:hover:bg-[#333333] focus:outline-none
         focus:ring-2 focus:ring-blue-500">
 
         <h2 class="mb-3 text-lg font-semibold">
           Subnetting your home with IPv4
         </h2>
 
-        <p class="text-sm text-gray-700">
+        <p class="text-sm text-gray-700 dark:text-gray-300">
           Calculate the subnet information for your home IPv4 network according with how many devices you have.
+        </p>
+      </a>
+
+      <a
+        href="subnetting_vlsm/index.html"
+        class="border border-gray-700 p-6 text-center shadow dark:border-gray-500
+        sm:col-span-2
+        transition hover:bg-gray-100 dark:bg-[#252526] dark:hover:bg-[#333333] focus:outline-none
+        focus:ring-2 focus:ring-blue-500">
+
+        <h2 class="mb-3 text-lg font-semibold">
+          Subnetting VLSM for IPv4
+          <span class="ml-2 inline-block rotate-3 border-2 border-red-600 px-2 py-0.5 align-middle text-xs font-black uppercase text-red-600 shadow-sm dark:border-red-400 dark:text-red-400">
+            New!
+          </span>
+        </h2>
+
+        <p class="text-sm text-gray-700 dark:text-gray-300">
+          Given a list of hipotetics departments of a company and its number of hosts, calculate the Subnet with variable-length subnet masking (VLSM) for IPv4.
         </p>
       </a>
 
@@ -107,20 +144,43 @@
 
     </section>
 
-    <footer class="mt-auto pt-12 text-center text-sm text-gray-600">
-      <p>Created by Cicero Lima. Visit my Github <a href="https://github.com/mike-lima-uno" class="underline hover:text-black">mike-lima-uno</a></p>
-
-      <p class="mt-1">
-        Licensed under the
-        <a
-          href="LICENSE"
-          class="underline hover:text-black">
-          MIT License
-        </a>
-      </p>
+    <footer class="mt-auto pt-12 text-center text-sm text-gray-600 dark:text-gray-400">
+      <p>Created by <a href="https://github.com/mike-lima-uno" class="hover:text-black dark:hover:text-white">Cicero Lima</a></p>
+      <p class="mt-1">under the <a href="LICENSE" class="underline hover:text-black dark:hover:text-white">MIT License</a></p>
     </footer>
 
   </main>
+
+  <script>
+    const themePreference = window.matchMedia("(prefers-color-scheme: dark)");
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    let hasManualTheme = false;
+
+    function updateThemeButton() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const action = isDark ? "Switch to light mode" : "Switch to dark mode";
+      themeToggle.setAttribute("aria-label", action);
+      themeToggle.setAttribute("title", action);
+      themeToggle.setAttribute("aria-pressed", String(isDark));
+      themeIcon.textContent = isDark ? "☼" : "☾";
+    }
+
+    themePreference.addEventListener("change", event => {
+      if (!hasManualTheme) {
+        document.documentElement.classList.toggle("dark", event.matches);
+        updateThemeButton();
+      }
+    });
+
+    themeToggle.addEventListener("click", () => {
+      hasManualTheme = true;
+      document.documentElement.classList.toggle("dark");
+      updateThemeButton();
+    });
+
+    updateThemeButton();
+  </script>
 
 </body>
 </html>

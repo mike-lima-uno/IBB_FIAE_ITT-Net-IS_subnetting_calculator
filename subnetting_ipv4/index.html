@@ -6,26 +6,25 @@
 
   <title>IPv4 Subnet Calculator - A Cisso Lima App</title>
 
+  <script>
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/theme.css">
 </head>
 
-<body class="relative min-h-screen bg-white px-6 pt-6 pb-24 text-sm text-black">
+<body class="relative min-h-screen bg-white px-6 pt-20 pb-24 text-sm text-black">
 
-  <a
-    href="../index.html"
-    aria-label="Back to home"
-    class="absolute right-4 top-4 border border-gray-700 bg-gray-100
-    flex h-10 w-10 items-center justify-center rounded-full p-0
-    text-center text-lg leading-none shadow transition
-    hover:bg-gray-200 focus:outline-none
-    focus:ring-2 focus:ring-blue-500">
-
-    <img
-      src="../assets/back-button.png"
-      alt=""
-      aria-hidden="true"
-      class="h-full w-full object-contain">
-  </a>
+  <div class="page-controls">
+    <button id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
+      <span id="themeIcon" aria-hidden="true">☾</span>
+    </button>
+    <a href="../index.html" aria-label="Back to home" title="Back to home">
+      <img src="../assets/back-button.png" alt="" aria-hidden="true">
+    </a>
+  </div>
 
   <main class="mx-auto flex min-h-[calc(100vh-6rem)] max-w-2xl flex-col">
 
@@ -117,6 +116,11 @@
       border border-gray-500 p-4 font-mono">
     </div>
 
+    <footer class="mt-auto pt-12 text-left text-sm text-gray-600 dark:text-gray-400">
+      <p>Created by <a href="https://github.com/mike-lima-uno" class="hover:text-black dark:hover:text-white">Cicero Lima</a></p>
+      <p class="mt-1">under the <a href="../LICENSE" class="underline hover:text-black dark:hover:text-white">MIT License</a></p>
+    </footer>
+
   </main>
 
   <!-- Calculate button -->
@@ -130,6 +134,7 @@
   </button>
 
   <script src="script.js"></script>
+  <script src="../assets/theme-toggle.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Home IPv4 Subnet Calculator - A Cisso Lima App</title>
+
+  <script>
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/theme.css">
+</head>
+
+<body class="relative min-h-screen bg-white px-6 pt-20 pb-24 text-sm text-black">
+
+  <div class="page-controls">
+    <button id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
+      <span id="themeIcon" aria-hidden="true">☾</span>
+    </button>
+    <a href="../index.html" aria-label="Back to home" title="Back to home">
+      <img src="../assets/back-button.png" alt="" aria-hidden="true">
+    </a>
+  </div>
+
+  <main class="mx-auto flex min-h-[calc(100vh-6rem)] max-w-2xl flex-col">
+
+    <h1 class="mb-8 text-center text-xl font-bold">
+      IPv4 VLSM Subnet Calculator
+    </h1>
+
+    <h3 class="mb-4 text-lg font-semibold">
+      1. Choose your starting network
+    </h3>
+
+    <hr class="mb-4 border-gray-500">
+
+    <fieldset class="mb-4">
+      <legend class="mb-2 font-medium">
+        Select a private network class or enter a network in CIDR format. Click Calculate to see an example using the placeholders.
+      </legend>
+      <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <label class="flex items-center gap-2 border border-gray-400 p-2">
+          <input type="radio" name="addressMode" value="A">
+          <span>Class A <span class="text-gray-600">(/8)</span></span>
+        </label>
+        <label class="flex items-center gap-2 border border-gray-400 p-2">
+          <input type="radio" name="addressMode" value="B">
+          <span>Class B <span class="text-gray-600">(/16)</span></span>
+        </label>
+        <label class="flex items-center gap-2 border border-gray-400 p-2">
+          <input type="radio" name="addressMode" value="C" checked>
+          <span>Class C <span class="text-gray-600">(/24)</span></span>
+        </label>
+        <label class="flex items-center gap-2 border border-gray-400 p-2">
+          <input type="radio" name="addressMode" value="custom">
+          <span>Custom</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="mb-4 grid gap-2 sm:grid-cols-[180px_1fr] sm:items-center">
+      <label for="networkId" class="font-medium">Starting network (CIDR):</label>
+      <input
+        id="networkId"
+        class="w-full border border-black p-2"
+        type="text"
+        inputmode="text"
+        placeholder="192.168.10.0/24">
+    </div>
+
+    <h3 class="mb-4 text-lg font-semibold">
+      2. Describe the departments
+    </h3>
+
+    <hr class="mb-4 border-gray-500">
+
+    <label for="departments" class="mb-2 font-medium">
+      Enter one department per line as <span class="font-mono">Name: required hosts</span>:
+    </label>
+    <textarea
+      id="departments"
+      class="mb-6 min-h-36 w-full resize-y border border-black p-2 font-mono"
+      rows="6"
+      aria-describedby="departmentHelp"
+      placeholder="Administration: 20&#10;Sales: 50&#10;IT: 12"></textarea>
+    <p id="departmentHelp" class="-mt-4 mb-6 text-gray-700">
+      The calculator sorts departments by host requirement and assigns the largest subnet first.
+    </p>
+
+    <h3 class="mb-4 mt-2 text-lg font-semibold">
+      3. Results
+    </h3>
+
+    <hr class="mb-4 border-gray-500">
+
+    <div
+      id="results"
+      class="min-h-0 flex-1 overflow-x-auto whitespace-pre-wrap border border-gray-500 p-4 font-mono">
+    </div>
+
+    <footer class="mt-auto pt-12 text-left text-sm text-gray-600 dark:text-gray-400">
+      <p>Created by <a href="https://github.com/mike-lima-uno" class="hover:text-black dark:hover:text-white">Cicero Lima</a></p>
+      <p class="mt-1">under the <a href="../LICENSE" class="underline hover:text-black dark:hover:text-white">MIT License</a></p>
+    </footer>
+
+  </main>
+
+  <button
+    id="calculateButton"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 border border-gray-700
+    bg-gray-100 px-8 py-3 shadow transition hover:bg-gray-200
+    focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+    Calculate
+  </button>
+
+  <script src="script.js"></script>
+  <script src="../assets/theme-toggle.js"></script>
+
+</body>
+</html>
+
